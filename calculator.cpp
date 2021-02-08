@@ -18,14 +18,14 @@ Calculator::Calculator(QWidget *parent)
     setMinimumSize(380, 450);
     setMaximumSize(380, 450);
 
-    usually= new QRadioButton("Обычный");
+    usually= new QRadioButton(tr("Обычный"));
     usually->setChecked(true);
     connect(usually, SIGNAL(toggled(bool)), SLOT(SwitchMode()));
 
     CreateSimpleCalcWidget();
     CreateComplCalcWidget();
     CreateDefaultCalcWidget();
-    mainWidget = new QWidget;
+    mainWidget = new QWidget(this);
     SpawnSimpleMode();
 
     setWindowTitle(tr("Calculator"));
@@ -33,13 +33,7 @@ Calculator::Calculator(QWidget *parent)
 
 Calculator::~Calculator()
 {
-    delete usually;
-    delete display;
-    delete mainWidget;
-    delete simpleCalcLayout;
-    delete complCalcLayout;
-    delete defaultCalcLayout;
-    delete mainLayout;
+
 }
 
 void Calculator::digitClicked()
@@ -59,6 +53,8 @@ void Calculator::digitClicked()
 void Calculator::unaryOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton==nullptr)
+        return;
     QString clickedOperator = clickedButton->text();
     double operand = display->text().toDouble();
     double result = 0.0;
@@ -88,6 +84,8 @@ void Calculator::unaryOperatorClicked()
 void Calculator::additiveOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton==nullptr)
+        return;
     QString clickedOperator = clickedButton->text();
     double operand = display->text().toDouble();
 
@@ -119,6 +117,8 @@ void Calculator::additiveOperatorClicked()
 void Calculator::multiplicativeOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton==nullptr)
+        return;
     QString clickedOperator = clickedButton->text();
     double operand = display->text().toDouble();
 
@@ -139,6 +139,8 @@ void Calculator::multiplicativeOperatorClicked()
 void Calculator::trigonometryOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton==nullptr)
+        return;
     QString clickedOperator = clickedButton->text();
     double operand = display->text().toDouble();
     double result = 0.0;
@@ -167,6 +169,8 @@ void Calculator::trigonometryOperatorClicked()
 void Calculator::constantOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton==nullptr)
+        return;
     QString clickedOperator = clickedButton->text();
     if (clickedOperator ==tr("exp")) {
         display->setText( QString::number(exp(1)));
@@ -187,6 +191,8 @@ int factorial(int n) {
 void Calculator::unusullyClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton==nullptr)
+        return;
     QString clickedOperator = clickedButton->text();
     double operand = display->text().toDouble();
     double result = 0.0;
@@ -228,8 +234,12 @@ void Calculator::unusullyClicked()
 void Calculator::extraunaryOperatorClicked()
 {
     Button *clickedButton = qobject_cast<Button *>(sender());
+    if(clickedButton==nullptr)
+        return;
     QString clickedOperator = clickedButton->text();
+
     double operand = display->text().toDouble();
+
     double result = 0.0;
 
     if (clickedOperator == tr("x\u00B3")) {
@@ -490,7 +500,7 @@ void Calculator::CreateDefaultCalcWidget()
     font.setPointSize(font.pointSize() + 10);
     display->setFont(font);
 
-    QRadioButton * ingener= new QRadioButton("Инженерный");
+    QRadioButton * ingener= new QRadioButton(tr("Инженерный"));
 
     defaultCalcLayout = new QGridLayout(this);
     defaultCalcLayout->setSpacing(0);
